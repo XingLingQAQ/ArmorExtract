@@ -1,4 +1,5 @@
 import os
+import shutil
 import yaml, json
 
 class Utils:
@@ -21,3 +22,9 @@ class Utils:
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, "w") as f:
             json.dump(data, f, indent=4)
+
+    @staticmethod
+    def clear_old_convert(file_path: str) -> None:
+        print("Clear old convert data")
+        if os.path.exists(file_path):
+            shutil.rmtree(file_path, True)  
