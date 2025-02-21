@@ -27,19 +27,19 @@ class Nexo:
                 model_id = item_data.get("Pack", {}).get("custom_model_data", "")
 
                 for texture in textures:
-                    texture_path = glob.glob(f"J:/Data/Tin/ArmorExtract/pack/Nexo/pack/Nexo/pack/asset/minecraft/texture/{texture}.png")
-                    #if os.path.exists(texture_path):
-                    os.makedirs(os.path.dirname(f"output/nexo/textures/models/{texture}.png"), exist_ok=True)
-                    shutil.copy(texture_path, f"output/nexo/textures/models/{texture}.png")
-                    armor_type = self.get_armor_type(material)
-                    self.furnace_data["items"].setdefault(f"minecraft:{material}".lower(), {}).setdefault("custom_model_data", {})[model_id] = {
+                    texture_path = fr"J:/Data/Tin/ArmorExtract/pack/Nexo/pack/Nexo/pack/asset/minecraft/texture/{texture}.png".replace("/", "//")
+                    if os.path.exists(texture_path):
+                        os.makedirs(os.path.dirname(f"output/nexo/textures/models/{texture}.png"), exist_ok=True)
+                        shutil.copy(texture_path, f"output/nexo/textures/models/{texture}.png")
+                        armor_type = self.get_armor_type(material)
+                        self.furnace_data["items"].setdefault(f"minecraft:{material}".lower(), {}).setdefault("custom_model_data", {})[model_id] = {
                             "armor_layer": {
                                 "type": armor_type.lower(),
                                 "texture": f"textures/models/{texture}",
                                 "auto_copy_texture": False
                             }
                         }
-                    #else:
-                        #print(f"Texture not found: {texture_path}")
+                    else:
+                        print(f"Texture not found: {texture_path}")
 
         Utils.save_json("output/nexo/furnace.json", self.furnace_data)
